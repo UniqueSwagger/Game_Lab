@@ -1,0 +1,9 @@
+# ignored files
+*.pdf
+*.exe
+*.ini
+*.out
+tempCodeRunnerFile.*
+
+# ignored folders
+\.vscode
