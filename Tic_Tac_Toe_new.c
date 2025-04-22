@@ -17,15 +17,21 @@ Your task here is to code a logic enabling the computer to make a smart(it doesn
 
 char a = '1', b = '2', c = '3', d = '4', e = '5', f = '6', g = '7', h = '8', i = '9';
 
+void reset_board()
+{
+    a = '1', b = '2', c = '3', d = '4', e = '5', f = '6', g = '7', h = '8', i = '9';
+}
+
 void print_board()
 {
-    printf("\n\n");
+    printf("\n");
+    printf("Press 'Q' to quit the game at any time.\n");
     printf(" %c | %c | %c\n", a, b, c);
     printf("-----------\n");
     printf(" %c | %c | %c\n", d, e, f);
     printf("-----------\n");
     printf(" %c | %c | %c\n", g, h, i);
-    printf("\n\n");
+    printf("\n");
 }
 
 int check_win()
@@ -143,7 +149,7 @@ void player_move(int player)
 
 void computer_move(int player)
 {
-    printf("\n\n");
+    printf("\n");
     printf("Computer's Move: ");
 
     if (a == '1' && ((b == 'O' && c == 'O') || (d == 'O' && g == 'O') || (e == 'O' && i == 'O')))
@@ -240,44 +246,87 @@ void computer_move(int player)
 
 int main()
 {
-    printf("\n\n");
+    printf("\n");
     printf("Welcome to Tic Tac Toe\n");
-    printf("Choose 1 for Single Player\n");
-    printf("Choose 2 for Two Player\n");
 
-    int choice;
-    while (scanf("%d", &choice) != 1)
+    while (1)
     {
-        if (getchar() == 'Q')
-            exit(0);
-        printf("Invalid Choice\n");
         printf("Choose 1 for Single Player\n");
         printf("Choose 2 for Two Player\n");
-    }
 
-    while (choice != 1 && choice != 2)
-    {
-        printf("Invalid Choice\n");
-        printf("Choose 1 for Single Player\n");
-        printf("Choose 2 for Two Player\n");
-        scanf("%d", &choice);
-    }
-    if (choice == 1)
-    {
-        printf("\n\n");
-        printf("Single Player Mode\n");
-        printf("Player 1 is X\n");
-        printf("Computer is O\n");
-        print_board();
-        int player = 1;
-        while (1)
+        int choice;
+        while (scanf("%d", &choice) != 1)
         {
-            if (player == 1)
+            if (getchar() == 'Q')
+                exit(0);
+            printf("Invalid Choice\n");
+            printf("Choose 1 for Single Player\n");
+            printf("Choose 2 for Two Player\n");
+        }
+
+        while (choice != 1 && choice != 2)
+        {
+            printf("Invalid Choice\n");
+            printf("Choose 1 for Single Player\n");
+            printf("Choose 2 for Two Player\n");
+            scanf("%d", &choice);
+        }
+        if (choice == 1)
+        {
+            printf("\n");
+            printf("Single Player Mode\n");
+            printf("Player 1 is X\n");
+            printf("Computer is O\n");
+            print_board();
+            int player = 1;
+            while (1)
+            {
+                if (player == 1)
+                {
+                    player_move(player);
+                    if (check_win())
+                    {
+                        printf("Player 1 Wins\n");
+                        break;
+                    }
+                    if (check_draw())
+                    {
+                        printf("Draw\n");
+                        break;
+                    }
+                    player = 2;
+                }
+                else
+                {
+                    computer_move(player);
+                    if (check_win())
+                    {
+                        printf("Computer Wins\n");
+                        break;
+                    }
+                    if (check_draw())
+                    {
+                        printf("Draw\n");
+                        break;
+                    }
+                    player = 1;
+                }
+            }
+        }
+        else
+        {
+            printf("\n");
+            printf("Two Player Mode\n");
+            printf("Player 1 is X\n");
+            printf("Player 2 is O\n");
+            print_board();
+            int player = 1;
+            while (1)
             {
                 player_move(player);
                 if (check_win())
                 {
-                    printf("Player 1 Wins\n");
+                    printf("Player %d Wins\n", player);
                     break;
                 }
                 if (check_draw())
@@ -285,48 +334,19 @@ int main()
                     printf("Draw\n");
                     break;
                 }
-                player = 2;
-            }
-            else
-            {
-                computer_move(player);
-                if (check_win())
-                {
-                    printf("Computer Wins\n");
-                    break;
-                }
-                if (check_draw())
-                {
-                    printf("Draw\n");
-                    break;
-                }
-                player = 1;
+                player = (player == 1) ? 2 : 1;
             }
         }
-    }
-    else
-    {
-        printf("\n\n");
-        printf("Two Player Mode\n");
-        printf("Player 1 is X\n");
-        printf("Player 2 is O\n");
-        print_board();
-        int player = 1;
-        while (1)
+
+        printf("Do you want to play again? (Y/N): ");
+        char restart;
+        scanf(" %c", &restart);
+        if (restart == 'N' || restart == 'n')
         {
-            player_move(player);
-            if (check_win())
-            {
-                printf("Player %d Wins\n", player);
-                break;
-            }
-            if (check_draw())
-            {
-                printf("Draw\n");
-                break;
-            }
-            player = (player == 1) ? 2 : 1;
+            printf("Thanks for playing!\n");
+            break;
         }
+        reset_board();
     }
     return 0;
 }
