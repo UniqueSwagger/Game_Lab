@@ -341,7 +341,7 @@ int main()
         printf("Do you want to play again? (Y/N): ");
         char restart;
         scanf(" %c", &restart);
-        if (restart == 'N' || restart == 'n')
+        if (restart == 'N' || restart == 'n' || restart=='Q')
         {
             printf("Thanks for playing!\n");
             break;
